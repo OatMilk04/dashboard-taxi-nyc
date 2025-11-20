@@ -3,16 +3,18 @@ const { Pool } = require('pg');
 const cors = require('cors');
 
 const app = express();
-const port = 3001;
+// Render usa la variable de entorno PORT, pero localmente usaremos 3001
+const port = process.env.PORT || 3001; 
 
 app.use(cors());
 
+// --- CONEXIÓN DE BASE DE DATOS (PRODUCCIÓN/DESARROLLO) ---
+// Render usará DATABASE_URL (el link de Neon). Si no existe (estamos en local), usa la IP local.
+const connectionString = process.env.DATABASE_URL || "postgresql://adrian:1234@localhost:5432/taxi_data";
+
 const pool = new Pool({
-  user: 'adrian',
-  host: 'localhost',
-  database: 'taxi_data',
-  password: '1234',
-  port: 5432,
+  connectionString: connectionString,
+  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false // SSL es obligatorio para Neon/Cloud
 });
 
 // --- MOTOR DE FILTROS (BLINDADO) ---
