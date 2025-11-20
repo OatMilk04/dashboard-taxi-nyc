@@ -28,13 +28,13 @@ function App() {
       try {
         const params = { day: dayFilter === "all" ? undefined : dayFilter, time: timeFilter === "all" ? undefined : timeFilter, month: monthFilter === "all" ? undefined : monthFilter };
         const [kpiRes, chartRes, mapRes, histRes, peakRes, topRes, alertRes] = await Promise.all([
-          axios.get('http://localhost:3001/api/kpis', { params }),
-          axios.get('http://localhost:3001/api/hourly', { params }),
-          axios.get('http://localhost:3001/api/zones', { params }),
-          axios.get('http://localhost:3001/api/histogram', { params }),
-          axios.get('http://localhost:3001/api/peak-valley', { params }),
-          axios.get('http://localhost:3001/api/top-zones', { params }),
-          axios.get('http://localhost:3001/api/alert', { params })
+          axios.get('https://dashboard-taxi-nyc.onrender.com/api/kpis', { params }),
+          axios.get('https://dashboard-taxi-nyc.onrender.com/api/hourly', { params }),
+          axios.get('https://dashboard-taxi-nyc.onrender.com/api/zones', { params }),
+          axios.get('https://dashboard-taxi-nyc.onrender.com/api/histogram', { params }),
+          axios.get('https://dashboard-taxi-nyc.onrender.com/api/peak-valley', { params }),
+          axios.get('https://dashboard-taxi-nyc.onrender.com/api/top-zones', { params }),
+          axios.get('https://dashboard-taxi-nyc.onrender.com/api/alert', { params })
         ]);
         setKpis(kpiRes.data); setHourlyData(chartRes.data); setZoneData(mapRes.data);
         setHistData(histRes.data); setPeakData(peakRes.data); setTopZones(topRes.data); setAlertData(alertRes.data);
@@ -47,7 +47,7 @@ function App() {
     if(!route.from || !route.to) return;
     try {
       setPrediction(null);
-      const res = await axios.get('http://localhost:3001/api/predict', { params: { from: route.from, to: route.to } });
+      const res = await axios.get('https://dashboard-taxi-nyc.onrender.com/api/predict', { params: { from: route.from, to: route.to } });
       setPrediction(res.data);
     } catch (e) { console.error(e); }
   };
